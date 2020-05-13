@@ -14,5 +14,6 @@ Pod::Spec.new do |s|
   s.swift_version = "5.1"
   s.source       = { :git => "https://github.com/icalialabs/Presentr.git", :tag => s.version.to_s }
   s.source_files = "Presentr/**/*.{swift}"
-  s.resources    = "Presentr/**/*.{xib,ttf}"
+  s.ios.resources  = "Presentr/**/*.{xib,ttf}"
+  s.tvos.resources = "Presentr/**/*.{ttf}"
 end

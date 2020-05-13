@@ -201,6 +201,7 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
     }
     
     fileprivate func registerKeyboardObserver() {
+        #if !os(tvOS)
         #if swift(>=4.2)
         let keyboardWasShownKey = UIResponder.keyboardWillShowNotification
         let keyboardWillHideKey = UIResponder.keyboardWillHideNotification
@@ -211,9 +212,11 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
 
         NotificationCenter.default.addObserver(self, selector: #selector(PresentrController.keyboardWasShown(notification:)), name: keyboardWasShownKey, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(PresentrController.keyboardWillHide(notification:)), name: keyboardWillHideKey, object: nil)
+        #endif
     }
     
     fileprivate func removeObservers() {
+        #if !os(tvOS)
         #if swift(>=4.2)
         let keyboardWasShownKey = UIResponder.keyboardWillShowNotification
         let keyboardWillHideKey = UIResponder.keyboardWillHideNotification
@@ -224,6 +227,7 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
 
         NotificationCenter.default.removeObserver(self, name: keyboardWasShownKey, object: nil)
         NotificationCenter.default.removeObserver(self, name: keyboardWillHideKey, object: nil)
+        #endif
     }
 
 }

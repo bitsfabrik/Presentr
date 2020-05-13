@@ -37,8 +37,8 @@ public enum KeyboardTranslationType {
             return presentedFrame
         case .compress:
             if offset > 0.0 {
-                if #available(iOS 11.0, *) {
-                    let topInsets =  UIApplication.shared.keyWindow?.safeAreaInsets.top
+                if #available(iOS 11.0, tvOS 11.0, *) {
+                        let topInsets =  UIApplication.shared.keyWindow?.safeAreaInsets.top
                     var y = max(presentedFrame.origin.y-offset, 20.0)
                     let newHeight = y != 20.0 ? presentedFrame.size.height : keyboardTop - 40 - (topInsets ?? 0.0)
                     y += topInsets ?? 0.0
@@ -71,6 +71,9 @@ extension Notification {
 
     /// Gets the optional CGRect value of the UIKeyboardFrameEndUserInfoKey from a UIKeyboard notification
     func keyboardEndFrame () -> CGRect? {
+        #if os(tvOS)
+        return nil
+        #else
         #if swift(>=4.2)
         let frameKey = UIResponder.keyboardFrameEndUserInfoKey
         #else
@@ -78,10 +81,14 @@ extension Notification {
         #endif
         
         return (self.userInfo?[frameKey] as? NSValue)?.cgRectValue
+        #endif
     }
 
     /// Gets the optional AnimationDuration value of the UIKeyboardAnimationDurationUserInfoKey from a UIKeyboard notification
     func keyboardAnimationDuration () -> Double? {
+        #if os(tvOS)
+        return nil
+        #else
         #if swift(>=4.2)
         let durationKey = UIResponder.keyboardAnimationDurationUserInfoKey
         #else
@@ -89,5 +96,6 @@ extension Notification {
         #endif
 
         return (self.userInfo?[durationKey] as? NSNumber)?.doubleValue
+        #endif
     }
 }

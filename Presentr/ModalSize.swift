@@ -47,6 +47,9 @@ public enum ModalSize {
         case .custom(let size):
             return size
         case .customOrientation(let sizePortrait, let sizeLandscape):
+            #if os(tvOS)
+            return min(Float(UIScreen.main.bounds.width), sizeLandscape)
+            #else
             switch UIDevice.current.orientation {
             case .portrait, .portraitUpsideDown:
                 return min(Float(UIScreen.main.bounds.width), sizePortrait)
@@ -55,6 +58,7 @@ public enum ModalSize {
             default:
                 return min(Float(UIScreen.main.bounds.width), sizePortrait)
             }
+            #endif
         case .fluid(let percentage):
             return floorf(Float(parentSize.width) * percentage)
         case .sideMargin(let value):
@@ -80,6 +84,9 @@ public enum ModalSize {
         case .custom(let size):
             return size
         case .customOrientation(let sizePortrait, let sizeLandscape):
+            #if os(tvOS)
+            return min(Float(UIScreen.main.bounds.height), sizeLandscape)
+            #else
             switch UIDevice.current.orientation {
             case .portrait, .portraitUpsideDown:
                 return min(Float(UIScreen.main.bounds.height), sizePortrait)
@@ -88,6 +95,7 @@ public enum ModalSize {
             default:
                 return min(Float(UIScreen.main.bounds.height), sizePortrait)
             }
+            #endif
         case .fluid(let percentage):
             return floorf(Float(parentSize.height) * percentage)
         case .sideMargin(let value):
